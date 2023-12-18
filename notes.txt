@@ -1,0 +1,21 @@
+https://www.notion.so/Fractol-6afebd3849324fa0adcb6396d5f22eaf?pvs=4
+
+
+Line :
+-	check_input
+	-	inside window.
+-	v(xB - xA, yB - yA);
+-	verif direction
+	-	avancer dans direction
+		-	sur x
+			- check if inside window
+				- if not window
+					- break
+			- C(x, 0) D(x, data->height)
+			- check inter(A, B, C, D)
+				- if inter
+					- put_pixel(x, y)
+					- continue;
+				- if no inter
+					- break
+		-	on

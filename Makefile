@@ -5,7 +5,7 @@ INCLUDES	=	includes/
 SRCS_FOLDER	=	sources/
 OBJS_FOLDER	=	objects/
 
-SRCS_FILES	=	main.c
+SRCS_FILES	=	main.c draw.c inter.c line.c draw_util.c
 
 OBJS		=	$(addprefix $(OBJS_FOLDER),$(SRCS_FILES:.c=.o))
 SRCS		=	$(addprefix $(SRCS_FOLDER),$(SRCS_FILES))
@@ -16,7 +16,9 @@ LIBMLX		=	libmlx/libmlx.a
 DEPS		=	$(LIBFT) $(LIBMLX) $(INCLUDES)libft.h $(INCLUDES)mlx.h $(INCLUDES)mlx_int.h
 
 CC			=	cc
+STATIC_LINK	=	-Llibft/ -lft -Llibmlx/ -lmlx -lXext -lX11 -lm -lz
 CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(INCLUDES)
+
 
 .PHONY		=	all clean fclean test re bonus
 
@@ -24,7 +26,7 @@ all: $(NAME)
 
 $(NAME): $(DEPS) $(OBJS)
 	@echo "\n-----COMPILING $(NAME)-------\n"
-	$(CC) $(CFLAGS) $(OBJS) -Llibft/ -lft -Llibmlx/ -lmlx -lXext -lX11 -lm -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(STATIC_LINK) -o $(NAME)
 	@echo "Executable has been successfully created."
 
 bonus: $(BONUS_NAME)
@@ -61,6 +63,7 @@ $(LIBMLX): $(INCLUDES)mlx.h
 clean:
 	@echo "\n-------------CLEAN--------------\n"
 	make clean -C libft/
+	make clean -C libmlx/
 	rm -rf $(OBJS_FOLDER)
 	@echo "object files have been removed."
 
