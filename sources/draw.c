@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 10:05:12 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/18 18:46:05 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/19 18:12:05 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,20 @@ void	draw_rect(t_data *data, t_coord a, t_coord b, int color)
 	}
 }
 
-static double	mod(t_complex z)
+int		draw_fractal(t_data *data)
+{
+	if (data->img == NULL)
+		return (0);
+	if (data->fractal == 0)
+		draw_fract_julia(data, data->z);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	return (0);
+}
+
+/* static double	mod(t_complex z)
 {
 	return (z.re * z.re + z.img * z.img);
-}
+} */
 
 static double	mod2(t_complex z)
 {
@@ -74,24 +84,23 @@ static t_complex calc_next(t_complex current, t_complex constant)
 	return (new);
 }
 
-static long	calc_color(int i, t_complex z)
-{
-	double			n;
-	long	color;
 
-	n = log2(mod(z));
-	if (n > 1.f)
-		color = (long)((float) i - log2(log2(mod(z))));
-	else
-		color = (long)((float) i - log2(1.f));
-	color *= 633;
-	/* if (color > 71)
-		return (color);
-	else if (color > 155)
-		return (color | 0x0000FF00);
-	else
-		return (color | 0x00FF0000); */
-	return (color);
+
+static int	calc_color(int i)
+{
+/* 	int	r;
+	int i2;
+	int	g;
+	int	b;
+
+	i2 = ((double) i / (double) NBR_ITERATION) * ((double) i / (double) NBR_ITERATION);
+	r = exp(((double) i / (double) NBR_ITERATION)) * 100;
+	g = (int) (exp(((double) i / (double) NBR_ITERATION)) * 100) % 300;
+	b =  i2 * 200;
+	printf("r = %d, g = %d, b = %d, i = %d\n", r, g, b, i);
+	printf("rgb = %#x\n", (r << 16) | (g << 8) | b);
+	return ((r << 16) | (g << 8) | b); */
+	return (i * 600);
 }
 
 static void	julia_check_pixel(t_data *data, t_coord coord, t_complex constant)
@@ -99,19 +108,19 @@ static void	julia_check_pixel(t_data *data, t_coord coord, t_complex constant)
 	t_complex	current;
 	int			i;
 
-	current.re = 1.5 * (coord.x - data->size_x / 2.f)
+	current.re = (coord.x - data->size_x / 2.f)
 		/ (data->size_x * 0.5 * data->zoom) + data->move_x;
 	current.img = (coord.y - data->size_y / 2.f)
 		/ (data->size_y * 0.5 * data->zoom) + data->move_y;
 	i = 0;
-	while (i < 300)
+	while (i < data->nbr_iterations)
 	{
 		current = calc_next(current, constant);
 		if (mod2(current) > 2)
 			break ;
 		i++;
 	}
-	long color = calc_color(i, current);
+	int color = calc_color(i);
 	draw_pxl(data, coord, color);
 }
 
