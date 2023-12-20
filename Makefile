@@ -5,7 +5,8 @@ INCLUDES	=	includes/
 SRCS_FOLDER	=	sources/
 OBJS_FOLDER	=	objects/
 
-SRCS_FILES	=	main.c draw.c inter.c line.c draw_util.c mouse_event.c key_event.c
+SRCS_FILES	=	main.c draw.c inter.c line.c draw_util.c mouse_event.c key_event.c \
+				color.c mandal.c fps.c h_tree.c
 
 OBJS		=	$(addprefix $(OBJS_FOLDER),$(SRCS_FILES:.c=.o))
 SRCS		=	$(addprefix $(SRCS_FOLDER),$(SRCS_FILES))
@@ -18,11 +19,17 @@ DEPS		=	$(LIBFT) $(LIBMLX) $(INCLUDES)libft.h $(INCLUDES)mlx.h $(INCLUDES)mlx_in
 CC			=	cc
 STATIC_LINK	=	-Llibft/ -lft -Llibmlx/ -lmlx -lXext -lX11 -lm -lz
 CFLAGS		=	-Wall -Wextra -Werror -g3 -I$(INCLUDES)
+CFLAGS_OPTI		=	-Wall -Wextra -Werror -O3 -I$(INCLUDES)
 
 
 .PHONY		=	all clean fclean test re bonus
 
 all: $(NAME)
+
+opti: $(SRCS) $(DEPS)
+	@echo "\n-----COMPILING $(NAME)-------\n"
+	$(CC) $(CFLAGS_OPTI) $(SRCS) $(STATIC_LINK) -o $(NAME)
+	@echo "Executable has been successfully created."
 
 $(NAME): $(DEPS) $(OBJS)
 	@echo "\n-----COMPILING $(NAME)-------\n"
@@ -56,7 +63,6 @@ $(LIBFT): $(INCLUDES)libft.h
 $(LIBMLX): $(INCLUDES)mlx.h
 	@echo "\n-------COMPILING MINILIBX--------------\n"
 	make -C libmlx/
-	make clean -C libmlx/
 	@echo "\n\n"
 
 

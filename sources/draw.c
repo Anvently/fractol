@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 10:05:12 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/19 18:12:05 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/20 15:30:26 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	draw_pxl(t_data *data, t_coord coord, int color)
 {
-	*(long *)(data->addr + (coord.y * data->len_line
+	*(int *)(data->addr + (coord.y * data->len_line
 				+ coord.x * (data->bbp / 8))) = color;
 }
 
@@ -59,86 +59,10 @@ int		draw_fractal(t_data *data)
 		return (0);
 	if (data->fractal == 0)
 		draw_fract_julia(data, data->z);
+	else if (data->fractal == 1)
+		draw_fract_mandal(data);
+	if (PRINT_FPS)
+		pfps();
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
-
-/* static double	mod(t_complex z)
-{
-	return (z.re * z.re + z.img * z.img);
-} */
-
-static double	mod2(t_complex z)
-{
-	return sqrt((z.re * z.re + z.img * z.img));
-}
-
-static t_complex calc_next(t_complex current, t_complex constant)
-{
-	t_complex	new;
-
-	new.re = (current.re * current.re) - (current.img * current.img);
-	new.img = 2 * current.re * current.img;
-	new.re += constant.re;
-	new.img += constant.img;
-	return (new);
-}
-
-
-
-static int	calc_color(int i)
-{
-/* 	int	r;
-	int i2;
-	int	g;
-	int	b;
-
-	i2 = ((double) i / (double) NBR_ITERATION) * ((double) i / (double) NBR_ITERATION);
-	r = exp(((double) i / (double) NBR_ITERATION)) * 100;
-	g = (int) (exp(((double) i / (double) NBR_ITERATION)) * 100) % 300;
-	b =  i2 * 200;
-	printf("r = %d, g = %d, b = %d, i = %d\n", r, g, b, i);
-	printf("rgb = %#x\n", (r << 16) | (g << 8) | b);
-	return ((r << 16) | (g << 8) | b); */
-	return (i * 600);
-}
-
-static void	julia_check_pixel(t_data *data, t_coord coord, t_complex constant)
-{
-	t_complex	current;
-	int			i;
-
-	current.re = (coord.x - data->size_x / 2.f)
-		/ (data->size_x * 0.5 * data->zoom) + data->move_x;
-	current.img = (coord.y - data->size_y / 2.f)
-		/ (data->size_y * 0.5 * data->zoom) + data->move_y;
-	i = 0;
-	while (i < data->nbr_iterations)
-	{
-		current = calc_next(current, constant);
-		if (mod2(current) > 2)
-			break ;
-		i++;
-	}
-	int color = calc_color(i);
-	draw_pxl(data, coord, color);
-}
-
-void	draw_fract_julia(t_data *data, t_complex constant)
-{
-	t_coord	coord;
-
-	coord.y = 0;
-	while (coord.y < data->size_y)
-	{
-		coord.x = 0;
-		while (coord.x < data->size_x)
-		{
-			julia_check_pixel(data, coord, constant);
-			coord.x++;
-		}
-		coord.y++;
-	}
-}
-
-
