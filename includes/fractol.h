@@ -6,16 +6,26 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 19:02:15 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/20 17:23:39 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/21 16:07:28 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
-# define NBR_ITERATION 150
-# define PRINT_FPS 1
+# define INV_SQRT_2 0.707
+# define PRINT_FPS 0
 # define HORIZONTAL 0
 # define VERTICAL 1
+# define DFT_ITERATION 150
+# define DFT_ZOOM 0.5
+# define DFT_MOVE_X -0.5
+# define DFT_FRACTAL 1
+# define DFT_Z_RE -0.7
+# define DFT_Z_IMG 0.45
+# define DFT_COLOR_FACTOR 1000
+# define SIZE_X 800
+# define SIZE_Y 300
+
 
 # include <mlx.h>
 # include <mlx_int.h>
@@ -58,6 +68,7 @@ typedef struct s_data {
 	t_complex		z;
 	int				nbr_iterations;
 	unsigned int	color_factor;
+	bool			paint_mode;
 }				t_data;
 
 typedef struct s_line {
@@ -71,6 +82,7 @@ typedef struct s_line {
 
 void		draw_pxl(t_data *data, t_coord coord, int color);
 void		draw_line(t_data *data, t_coord a, t_coord b, int color);
+void		draw_segment(t_data *data, t_segment seg, int color);
 void		draw_rect(t_data *data, t_coord a, t_coord b, int color);
 void		draw_fract_julia(t_data *data, t_complex constant);
 void		draw_fract_mandal(t_data *data);
@@ -85,10 +97,12 @@ bool		inter_line(int x, int y, t_line *line);
 bool		is_inside(int pos, int size);
 int			get_sign(int n);
 
+void		switch_fractal(int x, int y, t_data *data, int fractal);
 int			handle_key_release(int keycode, t_data *data);
 int 		handle_mouse_move(int x, int y, t_data *data);
 int			handle_button_press(int keycode, int x, int y, t_data *data);
 int			handle_button_release(int keycode, int x, int y, t_data *data);
+int			handle_close(t_data *data);
 
 void		pfps(void); //to remove
 

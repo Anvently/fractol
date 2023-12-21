@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 16:46:14 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/20 18:02:34 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/21 17:41:59 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ static void	rec_tree(t_data *data, t_segment seg, int color)
 	t_segment	seg2;
 
 	dimension = ft_max(seg.b.x - seg.a.x, seg.b.y - seg.a.y);
-	draw_line(data, seg.a, seg.b, color);
+	draw_segment(data, seg, color);
 	if (dimension < 1 || dimension < (data->nbr_iterations / 10))
 		return ;
 	orientation = get_orientation(seg);
-	seg1 = get_segment(seg.a, dimension / sqrt(2), !orientation);
-	seg2 = get_segment(seg.b, dimension / sqrt(2), !orientation);
+	seg1 = get_segment(seg.a, dimension * INV_SQRT_2, !orientation);
+	seg2 = get_segment(seg.b, dimension * INV_SQRT_2, !orientation);
 	rec_tree(data, seg1, color * data->color_factor);
 	rec_tree(data, seg2, color * data->color_factor);
 }
@@ -85,12 +85,14 @@ int	draw_tree(t_data *data)
 		return (0);
 	if (PRINT_FPS)
 		pfps();
-	dimension = data->size_x / 2;
-	seg.a.x = (data->size_x - dimension) / 2;
-	seg.a.y = data->size_y / 2;
-	seg.b.x = dimension + (data->size_x - dimension) / 2;
-	seg.b.y = data->size_y / 2;
-	clear_image(data);
+	dimension = (data->size_x / 2) * data->zoom;
+	seg.a.x = (data->size_x - dimension * 2
+			* (data->move_x / data->size_ratio)) / 2;
+	seg.a.y = data->size_y / 2 - data->move_y * (data->size_y / 2) * data->zoom;
+	seg.b.x = dimension + seg.a.x;
+	seg.b.y = seg.a.y;
+	if (!data->paint_mode)
+		clear_image(data);
 	rec_tree(data, seg, 0x00FF00FF);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);

@@ -6,7 +6,7 @@ SRCS_FOLDER	=	sources/
 OBJS_FOLDER	=	objects/
 
 SRCS_FILES	=	main.c draw.c inter.c line.c draw_util.c mouse_event.c key_event.c \
-				color.c mandal.c fps.c h_tree.c
+				color.c mandelbrot.c fps.c h_tree.c
 
 OBJS		=	$(addprefix $(OBJS_FOLDER),$(SRCS_FILES:.c=.o))
 SRCS		=	$(addprefix $(SRCS_FOLDER),$(SRCS_FILES))

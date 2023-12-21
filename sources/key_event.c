@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 13:19:17 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/20 11:28:52 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/21 15:13:12 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include <X11/keysym.h>
 #include <libft.h>
 
-static void	handle_close(t_data *data)
+int	handle_close(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
 	data->img = NULL;
 	mlx_loop_end(data->mlx);
+	return (0);
 }
 
 static void	handle_plus(t_data *data)
@@ -57,6 +58,18 @@ int	handle_key_release(int keycode, t_data *data)
 		handle_minus(data);
 	else if (keycode == XK_p || keycode == XK_o)
 		handle_zoom(keycode, data);
+	else if (keycode == XK_t)
+		data->paint_mode = !data->paint_mode;
+	else if (keycode == XK_g)
+		switch_fractal(0, 0, data, 2);
+	else if (keycode == XK_Right)
+		data->move_x += 0.2 / data->zoom;
+	else if (keycode == XK_Left)
+		data->move_x -= 0.2 / data->zoom;
+	else if (keycode == XK_Up)
+		data->move_y -= 0.2 / data->zoom;
+	else if (keycode == XK_Down)
+		data->move_y += 0.2 / data->zoom;
 	return (0);
 }
 

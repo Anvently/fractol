@@ -19,3 +19,7 @@ Line :
 				- if no inter
 					- break
 		-	on
+
+
+ISSUES
+	- Zoom doesn't behave well when ratio is not 1:1
