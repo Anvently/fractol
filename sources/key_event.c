@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 13:19:17 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/21 15:13:12 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/22 12:03:10 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@ int	handle_close(t_data *data)
 {
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
-	data->img = NULL;
+	mlx_destroy_display(data->mlx);
 	mlx_loop_end(data->mlx);
-	return (0);
+	free(data->mlx);
+	data->img = NULL;
+	data->mlx = NULL;
+	data->win = NULL;
+	exit(0);
 }
 
 static void	handle_plus(t_data *data)
@@ -72,4 +76,3 @@ int	handle_key_release(int keycode, t_data *data)
 		data->move_y += 0.2 / data->zoom;
 	return (0);
 }
-

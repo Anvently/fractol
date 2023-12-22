@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:10:44 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/21 15:37:12 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/22 11:04:48 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 
 static void	data_init(t_data *data, int fractal)
 {
-	data->mlx = mlx_init();
 	data->fractal = fractal;
 	data->paint_mode = 0;
 	data->size_x = SIZE_X;
@@ -34,11 +33,29 @@ static void	data_init(t_data *data, int fractal)
 	data->z.img = DFT_Z_IMG;
 	data->nbr_iterations = DFT_ITERATION;
 	data->color_factor = DFT_COLOR_FACTOR;
+}
+
+static int	window_init(t_data *data)
+{
+	data->mlx = mlx_init();
+	if (!data->mlx)
+		return (1);
 	data->img = mlx_new_image(data->mlx, data->size_x, data->size_y);
 	data->win = mlx_new_window(data->mlx, data->size_x,
 			data->size_y, "Fractol");
 	data->addr = mlx_get_data_addr(data->img, &data->bbp,
 			&data->len_line, &data->endian);
+	if (!data->img || !data->win || !data->addr)
+	{
+		if (data->img)
+			mlx_destroy_image(data->mlx, data->img);
+		if (data->win)
+			mlx_destroy_window(data->mlx, data->win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
+		return (1);
+	}
+	return (0);
 }
 
 static void	hook_init(t_data *data)
@@ -54,28 +71,41 @@ static void	hook_init(t_data *data)
 	mlx_loop_hook(data->mlx, draw_fractal, data);
 }
 
+static int	check_args(int argc, char **argv, int *fractal)
+{
+	if (argc != 2 || ft_strtoi(argv[1], fractal)
+		|| *fractal < 0 || *fractal > 2)
+	{
+		ft_printf("Missing argument or invalid fractal number.\n"
+			"Correct fractal number are :\n- 0 : julia set\n- 1 : mandelbrot\n"
+			"- 2 : H tree\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
 	int		fractal;
 
-	if (argc != 2 || ft_strtoi(argv[1], &fractal) || fractal < 0 || fractal > 2)
-	{
-		ft_printf("Missing argument or invalid fractal number.\n"
-			"Correct fractal number are :\n- 0 : julia set\n- 1 : mandelbrot\n"
-			"- 2 : H tree\n");
+	if (check_args(argc, argv, &fractal))
 		return (0);
-	}
+	data_init(&data, fractal);
+	if (window_init(&data))
+		return (1);
 	ft_printf("\n\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n"
 		"%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n\n",
 		"Commands", "", "Left click", "Drag and drop",
-		"Right click", "switch to a julia set's point",
-		"Arrows <- ->", "navigate the fractal",
-		"+/-", "increase/decrease iteration number.",
+		"Right click", "switch to a julia set's point", "Arrows <- ->",
+		"navigate the fractal", "+/-", "increase/decrease iteration number.",
 		"o/p", "change color palette", "t", "switch paint mode for h_tree",
 		"g", "switch to bonus fractal");
-	data_init(&data, fractal);
 	hook_init(&data);
 	mlx_loop(data.mlx);
+	mlx_destroy_image(data.mlx, data.img);
+	mlx_destroy_window(data.mlx, data.win);
+	mlx_destroy_display(data.mlx);
+	free(data.mlx);
 	return (0);
 }

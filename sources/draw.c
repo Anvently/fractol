@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 10:05:12 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/21 11:59:11 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/22 12:03:00 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	draw_segment(t_data *data, t_segment seg, int color)
 	if ((seg.a.x < 0 && seg.b.x < 0) || (seg.a.y < 0 && seg.b.y < 0)
 		|| (seg.a.x > data->size_x && seg.b.x > data->size_x)
 		|| (seg.a.y > data->size_y && seg.b.y > data->size_y)
-		|| ((seg.a.x != seg.b.x ) && (seg.a.y != seg.b.y)))
+		|| ((seg.a.x != seg.b.x) && (seg.a.y != seg.b.y)))
 		return ;
 	dir.x = get_sign(seg.b.x - seg.a.x);
 	dir.y = get_sign(seg.b.y - seg.a.y);
@@ -74,7 +74,7 @@ void	draw_rect(t_data *data, t_coord a, t_coord b, int color)
 	}
 }
 
-int		draw_fractal(t_data *data)
+int	draw_fractal(t_data *data)
 {
 	if (data->img == NULL)
 		return (0);

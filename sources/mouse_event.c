@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 17:56:56 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/21 16:16:34 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/22 12:00:32 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ int	handle_button_press(int keycode, int x, int y, t_data *data)
 	}
 	else if (keycode == Button4)
 	{
-		data->move_x += ((2.f * x) / (float) data->size_x - 1)
-			/ data->zoom * data->size_ratio;
-		data->move_y += ((2.f * y) / (float) data->size_y - 1) / data->zoom;
 		data->zoom *= 1.5;
 		data->zoom_ratio_x = 1.f / (data->size_x * 0.5 * data->zoom);
 		data->zoom_ratio_y = 1.f / (data->size_y * 0.5 * data->zoom);
+		data->move_x += ((x - data->size_x * 0.5) / data->size_x)
+			/ data->zoom * data->size_ratio;
+		data->move_y += ((y - data->size_y * 0.5) / data->size_y) / data->zoom;
 	}
 	else if (keycode == Button5)
 	{
-		data->move_x += ((2.f * x) / (float) data->size_x - 1)
+		data->move_x -= ((x - data->size_x * 0.5) / data->size_x)
 			/ data->zoom * data->size_ratio;
-		data->move_y += ((2.f * y) / (float) data->size_y - 1) / data->zoom;
+		data->move_y -= ((y - data->size_y * 0.5) / data->size_y) / data->zoom;
 		data->zoom /= 1.5;
 		data->zoom_ratio_x = 1.f / (data->size_x * 0.5 * data->zoom);
 		data->zoom_ratio_y = 1.f / (data->size_y * 0.5 * data->zoom);
