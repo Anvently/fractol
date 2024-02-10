@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 19:02:15 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/24 00:06:37 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:48:16 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define DFT_COLOR_FACTOR 1508829182
 # define SIZE_X 800
 # define SIZE_Y 800
+# define DFT_NBR_THREADS 16
 
 
 # include <mlx.h>
@@ -69,6 +70,10 @@ typedef struct s_data {
 	int				nbr_iterations;
 	unsigned int	color_factor;
 	bool			paint_mode;
+	unsigned int	nbr_threads;
+	pthread_t		*thread_ids;
+	int				thread_i;
+	pthread_mutex_t	init_mutex;
 }				t_data;
 
 typedef struct s_line {
@@ -84,10 +89,12 @@ void		draw_pxl(t_data *data, t_coord coord, int color);
 void		draw_line(t_data *data, t_coord a, t_coord b, int color);
 void		draw_segment(t_data *data, t_segment seg, int color);
 void		draw_rect(t_data *data, t_coord a, t_coord b, int color);
-void		draw_fract_julia(t_data *data, t_complex constant);
-void		draw_fract_mandal(t_data *data);
-int			draw_fractal(t_data *data);
+void		draw_fract_julia(t_data *data, t_complex constant, t_coord *start,
+				t_coord *dimensions);
+void		draw_fract_mandal(t_data *data, t_coord *start, t_coord *dimensions);
+int			draw_fractal(t_data *data, t_coord start, t_coord dimensions);
 int			draw_tree(t_data *data);
+int			threading_draw(t_data *data);
 
 int			calc_color(t_data *data, int i);
 

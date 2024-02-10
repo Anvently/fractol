@@ -6,12 +6,14 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 10:05:12 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/22 12:03:00 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:01:45 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol.h>
 #include <math.h>
+#include <pthread.h>
+#include <libft.h>
 
 void	draw_pxl(t_data *data, t_coord coord, int color)
 {
@@ -74,18 +76,91 @@ void	draw_rect(t_data *data, t_coord a, t_coord b, int color)
 	}
 }
 
-int	draw_fractal(t_data *data)
+void	*draw_routine(void *data_ptr)
+{
+	t_data	*data = (t_data *)data_ptr;
+	int		i;
+	int		cells;
+	t_coord	start;
+	t_coord	dimensions;
+
+	pthread_mutex_lock(&data->init_mutex);
+	i = data->thread_i;
+	data->thread_i = -1;
+	pthread_mutex_unlock(&data->init_mutex);
+	cells = data->nbr_threads * 0.25;
+	dimensions.x = data->size_x / cells;
+	dimensions.y = data->size_y / cells;
+	start.x = (i % cells) * dimensions.x;
+	start.y = (i / cells) * dimensions.y;
+	//printf("i=%d\n", i);
+	//printf("x=%d, y=%d\n", start.x, start.y);
+	//printf("x=%d, y=%d\n", dimensions.x, dimensions.y);
+	draw_fractal(data, start, dimensions);
+	return (NULL);
+}
+
+int	start_threads(t_data *data)
+{
+	unsigned int	i;
+	int				thread_i;
+
+	data->thread_ids = ft_calloc(data->nbr_threads, sizeof(pthread_t));
+	if (!data->thread_ids && data->nbr_threads > 0)
+		return (1);
+	i = 0;
+	while (i < data->nbr_threads)
+	{
+		data->thread_i = (int) i;
+		if (pthread_create(&data->thread_ids[i++], NULL, draw_routine, data))
+			return (1);
+		do
+		{
+			usleep(10);
+			pthread_mutex_lock(&data->init_mutex);
+			thread_i = data->thread_i;
+			pthread_mutex_unlock(&data->init_mutex);
+		} while (thread_i >= 0);
+	}
+	return (0);
+}
+
+///Number of threads must be 1 or a multiple of 4.
+int	threading_draw(t_data *data)
+{
+	unsigned int	i;
+
+	if (data->nbr_threads == 0 || data->fractal == 2)
+		draw_fractal(data, (t_coord){0, 0},
+			(t_coord){data->size_x, data->size_y});
+	if (data->fractal != 2)
+	{
+		if (data->nbr_threads > 1024
+			|| (data->nbr_threads > 1 && data->nbr_threads % 4))
+			return (1);
+		start_threads(data);
+		i = 0;
+		while (i < data->nbr_threads && data->thread_ids[i])
+			pthread_join(data->thread_ids[i++], NULL);
+		if (data->thread_ids)
+			free(data->thread_ids);
+		data->thread_ids = NULL;
+	}
+	if (PRINT_FPS)
+		pfps();
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	return (0);
+}
+
+int	draw_fractal(t_data *data, t_coord start, t_coord dimensions)
 {
 	if (data->img == NULL)
 		return (0);
 	if (data->fractal == 0)
-		draw_fract_julia(data, data->z);
+		draw_fract_julia(data, data->z, &start, &dimensions);
 	else if (data->fractal == 1)
-		draw_fract_mandal(data);
+		draw_fract_mandal(data, &start, &dimensions);
 	else if (data->fractal == 2)
 		draw_tree(data);
-	if (PRINT_FPS)
-		pfps();
-	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }

@@ -6,16 +6,19 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 13:19:17 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/22 12:03:10 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:24:07 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fractol.h>
 #include <X11/keysym.h>
+#include <pthread.h>
 #include <libft.h>
 
 int	handle_close(t_data *data)
 {
+	pthread_mutex_destroy(&data->init_mutex);
+
 	mlx_destroy_image(data->mlx, data->img);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);

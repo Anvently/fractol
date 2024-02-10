@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:29:40 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/21 16:14:38 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:06:12 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,17 @@ static void	fractal_check_pixel(t_data *data, t_coord coord,
 	draw_pxl(data, coord, calc_color(data, i));
 }
 
-void	draw_fract_julia(t_data *data, t_complex constant)
+void	draw_fract_julia(t_data *data, t_complex constant, t_coord *start,
+			t_coord *dimensions)
 {
 	t_coord		coord;
 	t_complex	current;
 
-	coord.y = 0;
-	while (coord.y < data->size_y)
+	coord.y = start->y;
+	while (coord.y < dimensions->y)
 	{
-		coord.x = 0;
-		while (coord.x < data->size_x)
+		coord.x = start->x;
+		while (coord.x < dimensions->x)
 		{
 			current.re = data->size_ratio * (coord.x - data->size_x * 0.5)
 				* data->zoom_ratio_x + data->move_x;
@@ -71,17 +72,19 @@ void	draw_fract_julia(t_data *data, t_complex constant)
 	}
 }
 
-void	draw_fract_mandal(t_data *data)
+void	draw_fract_mandal(t_data *data, t_coord *start,
+			t_coord *dimensions)
 {
 	t_coord		coord;
 	t_complex	constant;
 	t_complex	current;
 
-	coord.y = 0;
-	while (coord.y < data->size_y)
+	printf("x=%d, y=%d\n",start->x, start->y);
+	coord.y = start->y;
+	while (coord.y < dimensions->y)
 	{
-		coord.x = 0;
-		while (coord.x < data->size_x)
+		coord.x = start->x;
+		while (coord.x < dimensions->x)
 		{
 			constant.re = data->size_ratio * (coord.x - data->size_x * 0.5)
 				* data->zoom_ratio_x + data->move_x;

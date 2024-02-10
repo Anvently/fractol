@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:10:44 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/22 11:04:48 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 17:48:06 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include <libft.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <pthread.h>
 #include <X11/X.h>
 
 static void	data_init(t_data *data, int fractal)
 {
+	ft_memset(data, 0, sizeof(t_data));
 	data->fractal = fractal;
 	data->paint_mode = 0;
 	data->size_x = SIZE_X;
@@ -33,6 +35,8 @@ static void	data_init(t_data *data, int fractal)
 	data->z.img = DFT_Z_IMG;
 	data->nbr_iterations = DFT_ITERATION;
 	data->color_factor = DFT_COLOR_FACTOR;
+	data->nbr_threads = DFT_NBR_THREADS;
+	pthread_mutex_init(&data->init_mutex, NULL);
 }
 
 static int	window_init(t_data *data)
@@ -68,7 +72,7 @@ static void	hook_init(t_data *data)
 	mlx_hook(data->win, MotionNotify, PointerMotionMask,
 		handle_mouse_move, data);
 	mlx_hook(data->win, DestroyNotify, ButtonPressMask, handle_close, data);
-	mlx_loop_hook(data->mlx, draw_fractal, data);
+	mlx_loop_hook(data->mlx, threading_draw, data);
 }
 
 static int	check_args(int argc, char **argv, int *fractal)
