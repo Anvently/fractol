@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 14:43:09 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/15 17:06:13 by npirard          ###   ########.fr       */
+/*   Updated: 2023/12/24 00:06:07 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	inter_abcd(t_coord a, t_coord b, t_coord c, t_coord d)
 		return (false);
 	}
 	t = (b.x - a.x) * (c.y - a.y) - (c.x - a.x) * (b.y - a.y);
-	if (t && ((t > 0 != det > 0) || (t > 0 && t > det) || (t < 0 && t < det)))
+	if (t && (((t > 0) != (det > 0)) || ((t > 0) && (t > det)) || (t < 0 && t < det)))
 		return (false);
 	return (true);
 }
