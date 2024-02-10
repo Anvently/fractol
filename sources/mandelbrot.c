@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 11:29:40 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 18:06:12 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:14:35 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ void	draw_fract_julia(t_data *data, t_complex constant, t_coord *start,
 	t_complex	current;
 
 	coord.y = start->y;
-	while (coord.y < dimensions->y)
+	while (coord.y < (dimensions->y + start->y))
 	{
 		coord.x = start->x;
-		while (coord.x < dimensions->x)
+		while (coord.x < (dimensions->x + start->x))
 		{
 			current.re = data->size_ratio * (coord.x - data->size_x * 0.5)
 				* data->zoom_ratio_x + data->move_x;
@@ -79,12 +79,11 @@ void	draw_fract_mandal(t_data *data, t_coord *start,
 	t_complex	constant;
 	t_complex	current;
 
-	printf("x=%d, y=%d\n",start->x, start->y);
 	coord.y = start->y;
-	while (coord.y < dimensions->y)
+	while (coord.y < (dimensions->y + start->y))
 	{
 		coord.x = start->x;
-		while (coord.x < dimensions->x)
+		while (coord.x < (dimensions->x + start->x))
 		{
 			constant.re = data->size_ratio * (coord.x - data->size_x * 0.5)
 				* data->zoom_ratio_x + data->move_x;

@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 13:19:17 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 17:24:07 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:41:30 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int	handle_key_release(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		handle_close(data);
-	else if (keycode == 65451)
+	else if (keycode == 65451 || keycode == XK_plus || keycode == 61)
 		handle_plus(data);
-	else if (keycode == 65453)
+	else if (keycode == 65453 || keycode == XK_minus || keycode == 41)
 		handle_minus(data);
 	else if (keycode == XK_p || keycode == XK_o)
 		handle_zoom(keycode, data);
