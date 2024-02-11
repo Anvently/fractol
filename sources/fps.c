@@ -6,32 +6,44 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 13:42:03 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/20 17:10:14 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:02:42 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <time.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <fractol.h>
+#include <sys/time.h>
+
+static int	get_ms_diff(t_timeval *time, t_timeval *last_time)
+{
+	if (last_time->tv_sec == time->tv_sec)
+		return ((time->tv_usec - last_time->tv_usec) / 1000);
+	else if (time->tv_sec - last_time->tv_sec == 1)
+		return ((1000000 - last_time->tv_usec + time->tv_usec) / 1000);
+	else
+		return ((time->tv_sec - last_time->tv_sec) * 1000 \
+			+ (1000000 - last_time->tv_usec + time->tv_usec) / 1000);
+}
 
 void	pfps(void)
 {
-	static clock_t	tick;
-	static int		fps;
-	clock_t			tack;
+	static t_timeval	last_time;
+	static int			fps;
+	t_timeval			time;
 
-	if (!tick)
+	fps++;
+	gettimeofday(&time, NULL);
+	if (last_time.tv_sec == 0)
 	{
-		tick = clock();
-		fps++;
+		last_time = time;
 		return ;
 	}
-	tack = clock();
-	if (tack - tick >= CLOCKS_PER_SEC)
+	if (last_time.tv_sec != time.tv_sec)
 	{
-		tick = tack - ((tack - tick) - CLOCKS_PER_SEC);
-		printf("%d FPS\n", fps);
+		printf("%lu FPS|%d ms\n", fps / (time.tv_sec - last_time.tv_sec),
+			get_ms_diff(&time, &last_time) / fps);
 		fps = 0;
+		last_time = time;
 	}
-	else
-		fps++;
 }

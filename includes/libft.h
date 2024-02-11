@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 09:23:38 by npirard           #+#    #+#             */
-/*   Updated: 2023/12/14 17:41:58 by npirard          ###   ########.fr       */
+/*   Updated: 2024/01/17 18:29:57 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_isspace(char c);
 
 ///------------------------ CHAR CONVERSION ------------------------
 
@@ -53,6 +54,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strdup(const char *s);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin2(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 
 ///----------------------- STRING TEST -------------------------
@@ -62,6 +64,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *big, const char *little, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp_rev(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
@@ -80,6 +83,7 @@ char	**ft_free_strs(char **strings);
 char	***ft_free_strss(char ***strs);
 int		ft_strslen(char **strs);
 int		ft_strsslen(char ***strs);
+char	*ft_strschr(char **strs, char *str);
 
 ///---------------------- TYPE CONVERSION -----------------------
 
@@ -113,7 +117,7 @@ void	*null_error(char *msg);
 void	ft_print_strs(char **strs);
 
 /*--------------------------------------------------------------
----------------------------- BONUS -----------------------------
+---------------------------- LIST ------------------------------
 -----------------------------------------------------------------*/
 
 typedef struct s_list
@@ -129,14 +133,24 @@ void	ft_lstadd_front(t_list **list, t_list *new);
 void	ft_lstadd_back(t_list **list, t_list *new);
 void	ft_lstinsert(t_list *node_before, t_list *node);
 void	ft_lstdelone(t_list *list, void (*del)(void *));
+void	ft_lstdelif(t_list **lst, int (*f)(void *), void (*del)(void *));
 void	ft_lstclear(t_list **list, void (*del)(void *));
 void	ft_lstiter(t_list *list, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list	*ft_lstmerge(t_list *node, t_list **from);
 
 ///----------------------- READ ------------------------------
 
 int		ft_lstsize(t_list *lst);
 t_list	*ft_lstlast(t_list *lst);
+void	ft_lstprint(t_list *pt, void (*disp)(void *));
+
+/* ------------------------------- STRING LIST ------------------------------ */
+
+void	ft_lst_str_print(t_list *lst);
+int		ft_lst_str_append(t_list **lst, char *str);
+char	**ft_lsttostrs(t_list *list);
+t_list	*ft_strstolst(char **strs);
 
 ///-----------------------------------------------------------
 

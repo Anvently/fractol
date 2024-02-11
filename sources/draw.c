@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 10:05:12 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 18:44:06 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:36:09 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,27 +88,7 @@ void	*draw_routine(void *data_ptr)
 	i = data->thread_i;
 	data->thread_i = -1;
 	pthread_mutex_unlock(&data->init_mutex);
-	switch (data->nbr_threads)
-	{
-		case 4:
-			cells = 2;
-			break;
-		case 16:
-			cells = 4;
-			break;
-		case 64:
-			cells = 8;
-			break;
-		case 256:
-			cells = 16;
-			break;
-		case 1024:
-			cells = 32;
-			break;
-		default:
-		cells = 2;
-			break;
-	}
+	cells = (int) sqrt(data->nbr_threads);
 	dimensions.x = data->size_x / cells;
 	dimensions.y = data->size_y / cells;
 	start.x = (i % cells) * dimensions.x;

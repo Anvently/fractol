@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:10:44 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 17:48:06 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:50:12 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,12 @@ int	main(int argc, char **argv)
 	data_init(&data, fractal);
 	if (window_init(&data))
 		return (1);
-	ft_printf("\n\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n"
-		"%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n\n",
+	ft_printf("\n\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n"
+		"%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n%20s : %-20s\n\n",
 		"Commands", "", "Left click", "Drag and drop",
 		"Right click", "switch to a julia set's point", "Arrows <- ->",
 		"navigate the fractal", "+/-", "increase/decrease iteration number.",
+		":/!", "decrease/increase number of rendering threads",
 		"o/p", "change color palette", "t", "switch paint mode for h_tree",
 		"g", "switch to bonus fractal");
 	hook_init(&data);
