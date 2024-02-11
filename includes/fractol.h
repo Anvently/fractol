@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 19:02:15 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 18:38:37 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:18:20 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@
 # define DFT_COLOR_FACTOR 1508829182
 # define SIZE_X 800
 # define SIZE_Y 800
-# define DFT_NBR_THREADS 16 //4 - 16 - 64 - 256 - 1024
+# define DFT_NBR_THREADS 256 //4 - 16 - 64 - 256 - 1024
 
 
 # include <mlx.h>
 # include <mlx_int.h>
 # include <stdbool.h>
+# include <pthread.h>
+# include <sys/time.h>
+
+typedef struct timeval	t_timeval;
 
 typedef struct s_coord {
 	int		x;

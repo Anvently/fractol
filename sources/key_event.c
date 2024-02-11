@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 13:19:17 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/10 18:41:30 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/11 14:14:55 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,20 @@ static void	handle_zoom(int keycode, t_data *data)
 	ft_printf("Color factor = %d\n", data->color_factor);
 }
 
+static void	handle_threads_nbr(int keycode, t_data *data)
+{
+	if (keycode == 33)
+	{
+		if (data->nbr_threads == 0)
+			data->nbr_threads = 1;
+		else if (data->nbr_threads != 1024)
+			data->nbr_threads *= 4;
+	}
+	else if (keycode == 58)
+		data->nbr_threads /= 4;
+	printf("%d threads\n", data->nbr_threads);
+}
+
 int	handle_key_release(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
@@ -77,5 +91,7 @@ int	handle_key_release(int keycode, t_data *data)
 		data->move_y -= 0.2 / data->zoom;
 	else if (keycode == XK_Down)
 		data->move_y += 0.2 / data->zoom;
+	else if (keycode == 33 || keycode == 58)
+		handle_threads_nbr(keycode, data);
 	return (0);
 }
