@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 09:10:44 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/11 14:50:12 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/12 10:11:46 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv)
 		"Commands", "", "Left click", "Drag and drop",
 		"Right click", "switch to a julia set's point", "Arrows <- ->",
 		"navigate the fractal", "+/-", "increase/decrease iteration number.",
-		":/!", "decrease/increase number of rendering threads",
+		":/! or [/]", "decrease/increase number of rendering threads",
 		"o/p", "change color palette", "t", "switch paint mode for h_tree",
 		"g", "switch to bonus fractal");
 	hook_init(&data);
