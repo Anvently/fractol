@@ -6,7 +6,7 @@
 /*   By: npirard <npirard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/14 19:02:15 by npirard           #+#    #+#             */
-/*   Updated: 2024/02/11 14:18:20 by npirard          ###   ########.fr       */
+/*   Updated: 2024/02/14 14:04:46 by npirard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # define DFT_Z_RE -0.7
 # define DFT_Z_IMG 0.45
 # define DFT_COLOR_FACTOR 1508829182
-# define SIZE_X 800
-# define SIZE_Y 800
+# define SIZE_X 1920
+# define SIZE_Y 1080
 # define DFT_NBR_THREADS 256 //4 - 16 - 64 - 256 - 1024
 
 
