@@ -6,6 +6,8 @@ Fractol is a project developed as part of the cursus at 42 school. It is a progr
 
 Fractol allows users to explore and visualize various fractal shapes interactively. Users can navigate through the fractals, change iteration numbers, switch color palettes, and even switch to a Julia set's point. The program provides intuitive controls to manipulate and observe the fractals in real-time.
 
+![mandelbrot](images/img1.png)
+
 ## Features
 
 - Rendering of Mandelbrot fractal
@@ -45,3 +47,9 @@ Once compiled, you can run the Fractol program by executing the binary file with
 
 Default settings such as window resolution, printing FPS on/off,
 and initial constant values for julia set are defined in `includes/fractol.h`
+
+![img2](images/img2.png)
+![img3](images/img3.png)
+![img4](images/img4.png)
+![img5](images/img5.png)
+![img6](images/img6.png)
