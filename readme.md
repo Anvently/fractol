@@ -7,6 +7,7 @@ Fractol is a project developed as part of the cursus at 42 school. It is a progr
 Fractol allows users to explore and visualize various fractal shapes interactively. Users can navigate through the fractals, change iteration numbers, switch color palettes, and even switch to a Julia set's point. The program provides intuitive controls to manipulate and observe the fractals in real-time.
 
 ![mandelbrot](images/img1.png)
+![h_tree](images/h_tree.png)
 
 ## Features
 
@@ -34,6 +35,8 @@ To compile the Fractol project, clone the repository and run the `make` command.
 ```
 git clone <repository_url>
 cd fractol
+git submodule init libft
+git submodule update libft
 make
 ```
 
