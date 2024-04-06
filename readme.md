@@ -15,7 +15,7 @@ Fractol allows users to explore and visualize various fractal shapes interactive
 - Rendering of Julia set fractals
 - Rendering of an H tree fractal
 - Multithreading support for efficient rendering (only for Mandelbrot and julia fractals)
-- Interactive controls for navigation and customization
+- Interactive controls for navigation and customization (changing color palette, switching fractals)
 
 ## Commands
 
