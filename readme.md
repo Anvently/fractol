@@ -23,7 +23,7 @@ Fractol allows users to explore and visualize various fractal shapes interactive
 - **Right Click**: Switch to a Julia set's point (only in Mandelbrot, right click in Julia set to go back to Mandelbrot)
 - **Arrows <- ->**: Navigate the fractal
 - **+/-**: Increase/Decrease iteration number
-- **:/!** or **[/]** (azerty vs qwerty): Decrease/Increase number of rendering threads (optimal number is usually 256 threads)
+- **:/!** or **[/]** (azerty vs qwerty): Decrease/Increase number of rendering threads (optimal number is usually around the number of threads your processor dispose)
 - **o/p**: Change color palette
 - **g**: Switch between H-tree fractal and Julia/Mandelbrot
 - **t**: Trigger paint mode for H tree (psychedelic effect guaranteed !!)
